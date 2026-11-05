@@ -221,7 +221,9 @@ if app_mode.startswith("🏢"):
         if st.session_state.event_history:
             sev_df = pd.DataFrame([e["severity"] for e in st.session_state.event_history], columns=["Severity"])
             sev_counts = sev_df["Severity"].value_counts()
-            st.dataframe(sev_counts, use_container_width=True)
+            st.dataframe(sev_counts, width="stretch")
+        else:
+            st.info("ไม่มีข้อมูลบันทึกในระบบ")
         st.info("💡 **Executive Summary:** AI Engine ตรวจจับและกักกันภัยคุกคามได้ก่อนเข้าถึงฐานข้อมูลหลักและเครื่องแม่ข่าย Domain Controller ระบบปฏิบัติการหลักยังคงเปิดให้บริการได้เต็ม 100% (Zero Downtime)")
 
 
@@ -312,7 +314,7 @@ elif app_mode.startswith("🛡️"):
         # Audit Table
         if st.session_state.containment_log:
             st.markdown("#### 📜 บันทึกการอนุมัติและระงับเหตุการณ์ (Containment Audit Trail)")
-            st.dataframe(pd.DataFrame(st.session_state.containment_log), use_container_width=True)
+            st.dataframe(pd.DataFrame(st.session_state.containment_log), width="stretch")
 
 
 # ==========================================
@@ -328,22 +330,22 @@ elif app_mode.startswith("⚡"):
     
     new_event = None
     with btn1:
-        if st.button("🌐 ทราฟฟิกปกติ (Normal)", use_container_width=True):
+        if st.button("🌐 ทราฟฟิกปกติ (Normal)", width="stretch"):
             new_event = simulator.generate_event("Normal")
     with btn2:
-        if st.button("🌊 ยิง DDoS Flood", use_container_width=True):
+        if st.button("🌊 ยิง DDoS Flood", width="stretch"):
             new_event = simulator.generate_event("DDoS_SynFlood")
     with btn3:
-        if st.button("🔍 Port Scan Probe", use_container_width=True):
+        if st.button("🔍 Port Scan Probe", width="stretch"):
             new_event = simulator.generate_event("Port_Scan")
     with btn4:
-        if st.button("🔑 SSH Brute Force", use_container_width=True):
+        if st.button("🔑 SSH Brute Force", width="stretch"):
             new_event = simulator.generate_event("SSH_BruteForce")
     with btn5:
-        if st.button("🔒 Ransomware SMB", use_container_width=True):
+        if st.button("🔒 Ransomware SMB", width="stretch"):
             new_event = simulator.generate_event("Ransomware_LateralMovement")
     with btn6:
-        if st.button("☣️ Zero-Day Exploit", use_container_width=True):
+        if st.button("☣️ Zero-Day Exploit", width="stretch"):
             new_event = simulator.generate_event("ZeroDay_Exploit")
             
     if new_event:
@@ -369,10 +371,14 @@ elif app_mode.startswith("⚡"):
                 
     st.markdown("---")
     st.markdown("#### ประวัติเหตุการณ์ล่าสุด (Recent Feed - 10 รายการ)")
-    recent_df = pd.DataFrame(st.session_state.event_history[-10:])[
-        ["timestamp", "source_ip", "destination_ip", "destination_port", "verdict", "risk_score", "severity"]
-    ]
-    st.dataframe(recent_df, use_container_width=True)
+    if st.session_state.event_history:
+        recent_records = st.session_state.event_history[-10:]
+        cols = ["timestamp", "source_ip", "destination_ip", "destination_port", "verdict", "risk_score", "severity"]
+        recent_df = pd.DataFrame(recent_records)
+        display_cols = [c for c in cols if c in recent_df.columns]
+        st.dataframe(recent_df[display_cols], width="stretch")
+    else:
+        st.info("ยังไม่มีประวัติเหตุการณ์ในระบบ (สามารถคลิกปุ่มด้านบนเพื่อจำลองเหตุการณ์ได้)")
 
 
 # ==========================================
@@ -417,11 +423,11 @@ elif app_mode.startswith("📊"):
         
         st.markdown("#### ตารางประสิทธิภาพการจำแนกแยกตามคลาส (Per-Class Performance)")
         per_class_df = pd.DataFrame(metrics_data["per_class_report"]).T
-        st.dataframe(per_class_df, use_container_width=True)
+        st.dataframe(per_class_df, width="stretch")
         
         st.markdown("#### เมทริกซ์ความสับสน (Confusion Matrix)")
         cm_df = pd.DataFrame(metrics_data["confusion_matrix"], index=metrics_data["classes"], columns=metrics_data["classes"])
-        st.dataframe(cm_df, use_container_width=True)
+        st.dataframe(cm_df, width="stretch")
     else:
         st.warning("ไม่พบไฟล์สถิติ `models/evaluation_metrics.json` กรุณารัน `python run_pipeline.py` ก่อน")
         
