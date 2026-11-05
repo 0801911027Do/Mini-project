@@ -1,5 +1,19 @@
 # รายงานสรุปโครงการ (Project Handoff)
 ## ระบบตรวจจับภัยคุกคามไซเบอร์และสนับสนุนการตัดสินใจรับมือเหตุการณ์ด้วย AI
+
+<p align="center">
+  <img src="https://img.shields.io/badge/PYTHON-3.10%20%7C%203.11%20%7C%203.14-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/STREAMLIT-1.66%2B-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit" />
+  <img src="https://img.shields.io/badge/SCIKIT--LEARN-1.4%2B-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white" alt="Scikit-Learn" />
+  <img src="https://img.shields.io/badge/PANDAS-2.0%2B-150458?style=for-the-badge&logo=pandas&logoColor=white" alt="Pandas" />
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/AI%20ENGINE-ISOFOREST%20%2B%20RF-008080?style=for-the-badge&logo=target&logoColor=white" alt="Two-Stage AI" />
+  <img src="https://img.shields.io/badge/ACCURACY-100%25-00D26A?style=for-the-badge" alt="Accuracy" />
+  <img src="https://img.shields.io/badge/MACRO%20F1-1.0000-007ACC?style=for-the-badge" alt="Macro F1" />
+  <img src="https://img.shields.io/badge/TESTS-6%2F6%20PASS-brightgreen?style=for-the-badge&logo=pytest&logoColor=white" alt="Tests" />
+</p>
+
 **องค์กร/ทีมพัฒนา:** GoHard  
 **สถานะระบบ:** `AI Engine Online` — ระบบเฝ้าระวังและป้องกันภัยคุกคามทำงานสมบูรณ์  
 
