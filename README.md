@@ -60,6 +60,8 @@ d:\Mini project ML\
 │   └── test_pipeline.py           # ชุดคำสั่งทดสอบ Unit & Integration Tests (100% Pass)
 ├── handoff.md                     # เอกสารสรุปโครงการและ Pitch Deck ฉบับทางการ
 ├── handoff-v2.md                  # คู่มือส่งมอบโครงการและรายงานวิเคราะห์จุดผิดพลาด (Post-Mortem)
+├── ML_PIPELINE.md                 # คู่มืออธิบายกระบวนการ Machine Learning 5 ขั้นตอนฉบับสมบูรณ์
+├── USER_GUIDE.md                  # คู่มือการใช้งานระบบฉบับละเอียด
 ├── run_pipeline.py                # รัน ML Pipeline ทั้งหมดในคำสั่งเดียว
 ├── run_dashboard.bat              # ดับเบิลคลิกเพื่อเปิด Dashboard ทันที
 ├── run_dashboard.ps1              # สคริปต์เปิด Dashboard บน PowerShell
