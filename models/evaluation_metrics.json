@@ -1,0 +1,105 @@
+{
+  "macro_f1": 1.0,
+  "weighted_f1": 1.0,
+  "overall_accuracy": 1.0,
+  "false_positive_rate": 0.0,
+  "attack_detection_recall": 1.0,
+  "normal_anomaly_score_mean": 0.4333,
+  "zeroday_anomaly_score_mean": 0.6593,
+  "confusion_matrix": [
+    [
+      3509,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      79,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      65,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      35,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      38,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      24
+    ]
+  ],
+  "classes": [
+    "Normal",
+    "DDoS_SynFlood",
+    "Port_Scan",
+    "Ransomware_LateralMovement",
+    "SSH_BruteForce",
+    "ZeroDay_Exploit"
+  ],
+  "per_class_report": {
+    "Normal": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 3509
+    },
+    "DDoS_SynFlood": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 79
+    },
+    "Port_Scan": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 65
+    },
+    "Ransomware_LateralMovement": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 35
+    },
+    "SSH_BruteForce": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 38
+    },
+    "ZeroDay_Exploit": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 24
+    }
+  }
+}

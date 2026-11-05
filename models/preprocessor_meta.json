@@ -1,0 +1,83 @@
+{
+  "feature_cols": [
+    "duration_sec",
+    "bytes_sent",
+    "bytes_received",
+    "packets_sent",
+    "packets_received",
+    "failed_login_attempts",
+    "is_internal_src",
+    "is_internal_dst",
+    "is_lateral_candidate",
+    "port_category",
+    "bytes_per_packet_sent",
+    "bytes_per_packet_recv",
+    "byte_ratio",
+    "packet_rate",
+    "byte_rate",
+    "protocol_code",
+    "state_code"
+  ],
+  "class_names": [
+    "Normal",
+    "DDoS_SynFlood",
+    "Port_Scan",
+    "Ransomware_LateralMovement",
+    "SSH_BruteForce",
+    "ZeroDay_Exploit"
+  ],
+  "class_to_idx": {
+    "Normal": 0,
+    "DDoS_SynFlood": 1,
+    "Port_Scan": 2,
+    "Ransomware_LateralMovement": 3,
+    "SSH_BruteForce": 4,
+    "ZeroDay_Exploit": 5
+  },
+  "idx_to_class": {
+    "0": "Normal",
+    "1": "DDoS_SynFlood",
+    "2": "Port_Scan",
+    "3": "Ransomware_LateralMovement",
+    "4": "SSH_BruteForce",
+    "5": "ZeroDay_Exploit"
+  },
+  "feature_means": {
+    "duration_sec": 3.3138550133333333,
+    "bytes_sent": 3956.272088888889,
+    "bytes_received": 16928.819555555554,
+    "packets_sent": 31.427822222222222,
+    "packets_received": 38.42168888888889,
+    "failed_login_attempts": 0.19413333333333332,
+    "is_internal_src": 0.9596444444444444,
+    "is_internal_dst": 0.5716444444444444,
+    "is_lateral_candidate": 0.5312888888888889,
+    "port_category": 1.4521777777777778,
+    "bytes_per_packet_sent": 328.0323529851731,
+    "bytes_per_packet_recv": 645.5846806143585,
+    "byte_ratio": 2.30566935389222,
+    "packet_rate": 410.88179025304163,
+    "byte_rate": 23808.499786789635,
+    "protocol_code": 1.1952888888888888,
+    "state_code": 1.653688888888889
+  },
+  "feature_stds": {
+    "duration_sec": 8.539947338127623,
+    "bytes_sent": 43204.547876808974,
+    "bytes_received": 41975.583317695215,
+    "packets_sent": 359.71933724831695,
+    "packets_received": 268.0036300762296,
+    "failed_login_attempts": 2.0915919041087663,
+    "is_internal_src": 0.19679172922498042,
+    "is_internal_dst": 0.49484045265140447,
+    "is_lateral_candidate": 0.49902004512053294,
+    "port_category": 1.691778069092317,
+    "bytes_per_packet_sent": 264.29731000942473,
+    "bytes_per_packet_recv": 390.20293499228825,
+    "byte_ratio": 12.122311881836247,
+    "packet_rate": 5931.346071805426,
+    "byte_rate": 82972.92622042385,
+    "protocol_code": 0.3964229291620656,
+    "state_code": 1.2163614927264241
+  }
+}

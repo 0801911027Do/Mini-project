@@ -1,0 +1,9 @@
+# GoHard AI Threat Detection & Incident Decision Support System
+# Dependencies
+numpy>=1.25.0
+pandas>=2.0.0
+scikit-learn>=1.4.0
+imbalanced-learn>=0.12.0
+joblib>=1.3.0
+streamlit>=1.30.0
+
