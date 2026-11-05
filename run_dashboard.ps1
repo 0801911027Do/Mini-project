@@ -1,5 +1,4 @@
 Write-Host "===================================================" -ForegroundColor Cyan
-Write-Host " Starting GoHard AI Threat Engine Dashboard...     " -ForegroundColor Cyan
+Write-Host " Starting ML Mini-Project Dashboard...             " -ForegroundColor Cyan
 Write-Host "===================================================" -ForegroundColor Cyan
-streamlit run app/dashboard.py
-
+streamlit run app.py

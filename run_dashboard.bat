@@ -1,7 +1,6 @@
 @echo off
 echo ===================================================
-echo  Starting GoHard AI Threat Engine Dashboard...
+echo  Starting ML Mini-Project Dashboard...
 echo ===================================================
-streamlit run app/dashboard.py
+streamlit run app.py
 pause
-
