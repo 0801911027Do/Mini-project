@@ -33,10 +33,19 @@ st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-    /* Typography Global Reset per B1 */
-    html, body, [class*="css"], .stMarkdown, p, span, label, div {
-        font-family: 'Manrope', sans-serif !important;
+    /* Typography Global Styling per B1 */
+    .stApp, .stApp p, .stApp label, .stApp h1, .stApp h2, .stApp h3, .stApp h4 {
+        font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif !important;
         -webkit-font-smoothing: antialiased;
+    }
+    
+    /* ป้องกัน Font Override ชนกับไอคอนลูกศรของ Streamlit (แก้บั๊ก ,arrd_ ซ้อนตัวหนังสือ) */
+    [data-testid="stExpanderToggleIcon"],
+    [data-testid="stExpanderToggleIcon"] *,
+    [class*="material-symbols"],
+    [data-testid="stIcon"],
+    [data-baseweb="icon"] {
+        font-family: "Material Symbols Rounded", sans-serif !important;
     }
     
     /* Hero Heading with gradient text per B5 */
