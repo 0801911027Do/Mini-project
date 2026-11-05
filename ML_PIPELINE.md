@@ -98,9 +98,9 @@
   3. **การสกัดฟีเจอร์พฤติกรรมความปลอดภัย (Cybersecurity Feature Engineering):**
      * วิเคราะห์ขอบเขตเครือข่าย: แปลง IP เป็น Boolean (`is_internal_src`, `is_internal_dst`) และคำนวณ `is_lateral_candidate` (เมื่อภายในคุยกับภายใน เพื่อดักจับ Ransomware)
      * คำนวณอัตราความเร็วและสัดส่วน:
-       $$\text{byte\_ratio} = \frac{\text{bytes\_sent}}{\max(1, \text{bytes\_received})}$$
-       $$\text{packet\_rate} = \frac{\text{packets\_sent} + \text{packets\_received}}{\max(0.001, \text{duration\_sec})}$$
-       $$\text{byte\_rate} = \frac{\text{bytes\_sent} + \text{bytes\_received}}{\max(0.001, \text{duration\_sec})}$$
+       $$\text{Byte Ratio} = \frac{\text{Bytes Sent}}{\max(1, \text{Bytes Received})}$$
+       $$\text{Packet Rate} = \frac{\text{Packets Sent} + \text{Packets Received}}{\max(0.001, \text{Duration Sec})}$$
+       $$\text{Byte Rate} = \frac{\text{Bytes Sent} + \text{Bytes Received}}{\max(0.001, \text{Duration Sec})}$$
   4. **การแปลงข้อมูลตัวอักษรเป็นรหัสตัวเลข (Categorical Encoding):**
      * `protocol`: TCP=1, UDP=2, ICMP=3
      * `connection_state`: ESTABLISHED=1, SYN_SENT=2, RESET=3, CLOSED=4
