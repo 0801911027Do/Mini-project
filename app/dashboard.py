@@ -13,6 +13,7 @@ import os
 import json
 import pandas as pd
 import numpy as np
+import altair as alt
 import streamlit as st
 from datetime import datetime
 
@@ -211,8 +212,20 @@ if app_mode.startswith("🏢"):
         st.markdown("#### การกระจายตัวของประเภทภัยคุกคาม (Threat Vector Breakdown)")
         if st.session_state.event_history:
             threat_df = pd.DataFrame([e["verdict"] for e in st.session_state.event_history], columns=["Verdict"])
-            counts = threat_df["Verdict"].value_counts()
-            st.bar_chart(counts)
+            counts_df = threat_df["Verdict"].value_counts().reset_index()
+            counts_df.columns = ["Verdict", "Count"]
+            c_threat = (
+                alt.Chart(counts_df)
+                .mark_bar(cornerRadiusTopLeft=6, cornerRadiusTopRight=6)
+                .encode(
+                    x=alt.X("Verdict:N", title=None, sort=None),
+                    y=alt.Y("Count:Q", title="จำนวน"),
+                    color=alt.Color("Verdict:N", legend=None),
+                    tooltip=["Verdict", "Count"]
+                )
+                .properties(height=260)
+            )
+            st.altair_chart(c_threat, width="stretch")
         else:
             st.info("ไม่มีข้อมูลบันทึกในระบบ")
             

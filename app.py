@@ -10,6 +10,7 @@
 
 import streamlit as st
 import pandas as pd
+import altair as alt
 import joblib
 import os
 
@@ -371,5 +372,24 @@ with st.expander("📊 ดูสัดส่วนข้อมูลในชุ
         st.write("ตัวอย่างข้อมูล 5 แท็กเก็ตแรก:")
         st.dataframe(df_view.head(), hide_index=True, use_container_width=True)
         st.write("สัดส่วนข้อมูลแต่ละประเภท:")
-        st.bar_chart(df_view["label"].value_counts())
+        counts_df = df_view["label"].value_counts().reset_index()
+        counts_df.columns = ["label", "count"]
+        chart = (
+            alt.Chart(counts_df)
+            .mark_bar(cornerRadiusTopLeft=6, cornerRadiusTopRight=6)
+            .encode(
+                x=alt.X("label:N", title="ประเภทภัยคุกคาม", sort=None),
+                y=alt.Y("count:Q", title="จำนวนรายการ"),
+                color=alt.Color("label:N", legend=None, scale=alt.Scale(
+                    domain=["Normal", "DDoS", "PortScan", "BruteForce"],
+                    range=["#00D26A", "#FF4B4B", "#FFA800", "#A855F7"]
+                )),
+                tooltip=[
+                    alt.Tooltip("label:N", title="ประเภท"),
+                    alt.Tooltip("count:Q", title="จำนวนแถว")
+                ]
+            )
+            .properties(height=260)
+        )
+        st.altair_chart(chart, use_container_width=True)
 st.markdown('</div>', unsafe_allow_html=True)
