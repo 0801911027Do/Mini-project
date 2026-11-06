@@ -105,10 +105,11 @@ st.markdown(f"""
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 
 <style>
-    /* ตั้งค่าฟอนต์สากล Manrope */
-    .stApp, .stApp p, .stApp label, .stApp h1, .stApp h2, .stApp h3, .stApp h4 {{
+    /* ตั้งค่าฟอนต์สากล Manrope ให้กับองค์ประกอบข้อความหลัก */
+    .stApp, .stApp p, .stApp label, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp button, .stApp input {{
         font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif !important;
         -webkit-font-smoothing: antialiased;
     }}
@@ -119,13 +120,31 @@ st.markdown(f"""
         color: {text_primary} !important;
     }}
     
-    /* ป้องกัน Font Override ชนกับไอคอนลูกศรของ Streamlit */
+    /* ป้องกันตัวอักษร ligature หลุดซ้อนข้อความ เช่น keyboard_arrow_down หรือ arrd_ */
+    [data-testid="stIconMaterial"],
+    [data-testid*="stIcon"],
     [data-testid="stExpanderToggleIcon"],
     [data-testid="stExpanderToggleIcon"] *,
-    [class*="material-symbols"],
-    [data-testid="stIcon"],
-    [data-baseweb="icon"] {{
-        font-family: "Material Symbols Rounded", sans-serif !important;
+    [data-testid="stExpander"] summary span:first-child,
+    .material-symbols-rounded,
+    [class*="material-symbols"] {{
+        font-family: "Material Symbols Rounded" !important;
+        font-weight: normal !important;
+        font-style: normal !important;
+        line-height: 1 !important;
+        letter-spacing: normal !important;
+        text-transform: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        white-space: nowrap !important;
+        word-wrap: normal !important;
+        direction: ltr !important;
+        -webkit-font-feature-settings: 'liga' 1 !important;
+        font-feature-settings: 'liga' 1 !important;
+        -webkit-font-smoothing: antialiased !important;
+        overflow: hidden !important;
+        vertical-align: middle !important;
     }}
     
     /* Hero Heading with gradient text per B5 */
