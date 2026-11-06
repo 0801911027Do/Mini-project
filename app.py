@@ -332,10 +332,12 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ลิงก์ไปหน้า "ทำไมต้องสร้างระบบป้องกัน" (หน้าแยก ไม่กระทบส่วนอื่น)
-_l, _mid, _r = st.columns([1, 2, 1])
-with _mid:
-    st.page_link("pages/1_why_defense.py", label="ทำไมผมถึงสร้างโปรเจกต์นี้ : มุมมองฝ่ายป้องกันในยุคแฮกเกอร์ใช้ AI", icon="🛡️")
+# แถบทางลัดไปยังหน้าย่อย (Navigation Links)
+_link1, _link2 = st.columns(2)
+with _link1:
+    st.page_link("pages/2_red_vs_blue.py", label="⚔️ สนามจำลอง: ฝ่ายโจมตี vs ฝ่ายป้องกัน (Red vs Blue Team)", icon="⚔️")
+with _link2:
+    st.page_link("pages/1_why_defense.py", label="🛡️ เหตุผลที่สร้างโปรเจกต์นี้ (มุมมองฝ่ายป้องกันในยุค AI)", icon="🛡️")
 
 # ----------------------------------------------------
 # 7. SECTION 2: INTERACTIVE TESTING PLAYGROUND
