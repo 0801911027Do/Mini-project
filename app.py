@@ -1,10 +1,11 @@
 """
 แอปพลิเคชันตรวจจับภัยคุกคามไซเบอร์ (ML Mini-Project)
+รองรับโหมดมืด (Dark Mode) และโหมดสว่าง (Light Mode) สลับได้ทันที
 ออกแบบตามมาตรฐาน visual system ของ landing-page-design:
 - Typography: ฟอนต์ Manrope, Type scale มาตรฐาน, text-wrap: balance
 - Spacing: Spacing tokens (8px, 16px, 24px, 32px)
 - Radius: Outer card 16px, inner component 10px (nested radius formula)
-- Surface: Flat dark surface (#181818, #1F1F1F), เส้นขอบ 1px รอบด้าน
+- Surface: Flat surfaces ไม่ใช้ gradient background
 - Motion: cubic-bezier(0.22, 1, 0.36, 1)
 """
 
@@ -25,158 +26,267 @@ st.set_page_config(
 )
 
 # ----------------------------------------------------
-# 2. ปรับแต่งดีไซน์ตามหลัก landing-page-design (Design System)
+# 2. ตัวสลับธีม: โหมดมืด (Dark) / โหมดสว่าง (Light)
 # ----------------------------------------------------
-st.markdown("""
+if "is_dark" not in st.session_state:
+    st.session_state.is_dark = True
+
+# แถบควบคุมด้านบนขวาสำหรับสลับโหมด
+top_space, top_toggle = st.columns([6, 1.2])
+with top_toggle:
+    theme_text = "🌙 โหมดมืด (Dark)" if st.session_state.is_dark else "☀️ โหมดสว่าง (Light)"
+    selected_dark = st.toggle(theme_text, value=st.session_state.is_dark)
+    if selected_dark != st.session_state.is_dark:
+        st.session_state.is_dark = selected_dark
+        st.rerun()
+
+# ----------------------------------------------------
+# 3. กำหนดค่าสีตาม Design Tokens (Dark vs Light)
+# ----------------------------------------------------
+if st.session_state.is_dark:
+    # DARK MODE (ตามมาตรฐาน B4, B5)
+    bg_app = "#121212"
+    bg_card = "#1F1F1F"
+    border_card = "#2D2D2D"
+    text_primary = "#FFFFFF"
+    text_secondary = "#9E9E9E"
+    badge_bg = "#272727"
+    badge_border = "#333333"
+    hero_grad = "linear-gradient(180deg, #FFFFFF 0%, #9B9B9B 100%)"
+    metric_bg = "#181818"
+    metric_border = "#2B2B2B"
+    step_bg = "#181818"
+    step_border = "#2B2B2B"
+    
+    # การ์ดสถานะภัยคุกคามในโหมดมืด
+    c_norm_bg = "#162419"
+    c_norm_border = "#1B4D28"
+    c_ddos_bg = "#281417"
+    c_ddos_border = "#5C1D24"
+    c_scan_bg = "#291E14"
+    c_scan_border = "#5E3917"
+    c_brute_bg = "#231629"
+    c_brute_border = "#4C215E"
+    threat_desc_color = "#D1D5DB"
+    action_tag_bg = "rgba(255, 255, 255, 0.08)"
+    action_tag_text = "#FFFFFF"
+else:
+    # LIGHT MODE (ตามมาตรฐาน B4, B5)
+    bg_app = "#F8FAFC"
+    bg_card = "#FFFFFF"
+    border_card = "#E2E8F0"
+    text_primary = "#0F172A"
+    text_secondary = "#64748B"
+    badge_bg = "#F1F5F9"
+    badge_border = "#CBD5E1"
+    hero_grad = "linear-gradient(180deg, #000000 0%, #666666 100%)"
+    metric_bg = "#F8FAFC"
+    metric_border = "#E2E8F0"
+    step_bg = "#F8FAFC"
+    step_border = "#E2E8F0"
+    
+    # การ์ดสถานะภัยคุกคามในโหมดสว่าง (โทนพาสเทลสะอาดตา)
+    c_norm_bg = "#F0FDF4"
+    c_norm_border = "#BBF7D0"
+    c_ddos_bg = "#FEF2F2"
+    c_ddos_border = "#FECACA"
+    c_scan_bg = "#FFFBEB"
+    c_scan_border = "#FDE68A"
+    c_brute_bg = "#FAF5FF"
+    c_brute_border = "#E9D5FF"
+    threat_desc_color = "#334155"
+    action_tag_bg = "rgba(0, 0, 0, 0.05)"
+    action_tag_text = "#0F172A"
+
+# ----------------------------------------------------
+# 4. Inject Dynamic CSS
+# ----------------------------------------------------
+st.markdown(f"""
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-    /* Typography Global Styling per B1 */
-    .stApp, .stApp p, .stApp label, .stApp h1, .stApp h2, .stApp h3, .stApp h4 {
+    /* ตั้งค่าฟอนต์สากล Manrope */
+    .stApp, .stApp p, .stApp label, .stApp h1, .stApp h2, .stApp h3, .stApp h4 {{
         font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif !important;
         -webkit-font-smoothing: antialiased;
-    }
+    }}
     
-    /* ป้องกัน Font Override ชนกับไอคอนลูกศรของ Streamlit (แก้บั๊ก ,arrd_ ซ้อนตัวหนังสือ) */
+    /* โทนสีพื้นหลังหลักของแอป */
+    .stApp {{
+        background-color: {bg_app} !important;
+        color: {text_primary} !important;
+    }}
+    
+    /* ป้องกัน Font Override ชนกับไอคอนลูกศรของ Streamlit */
     [data-testid="stExpanderToggleIcon"],
     [data-testid="stExpanderToggleIcon"] *,
     [class*="material-symbols"],
     [data-testid="stIcon"],
-    [data-baseweb="icon"] {
+    [data-baseweb="icon"] {{
         font-family: "Material Symbols Rounded", sans-serif !important;
-    }
+    }}
     
     /* Hero Heading with gradient text per B5 */
-    .hero-container {
+    .hero-container {{
         max-width: 680px;
         margin: 0 auto 32px auto;
         text-align: center;
-        padding-top: 16px;
-    }
+        padding-top: 8px;
+    }}
     
-    .hero-badge {
+    .hero-badge {{
         display: inline-block;
         padding: 4px 12px;
-        background-color: #272727;
-        border: 1px solid #333333;
+        background-color: {badge_bg};
+        border: 1px solid {badge_border};
         border-radius: 9999px;
         font-size: 13px;
         font-weight: 600;
         color: #00D26A;
         margin-bottom: 16px;
-    }
+    }}
     
-    .hero-title {
+    .hero-title {{
         font-size: 38px;
         font-weight: 700;
         line-height: 1.2;
-        background: linear-gradient(180deg, #FFFFFF 0%, #9B9B9B 100%);
+        background: {hero_grad};
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-bottom: 16px;
         text-wrap: balance;
-    }
+    }}
     
-    .hero-subtitle {
+    .hero-subtitle {{
         font-size: 16px;
-        color: #9E9E9E;
+        color: {text_secondary};
         line-height: 1.5;
         text-wrap: balance;
         margin-bottom: 24px;
-    }
+    }}
 
     /* Flat Card Surfaces per B3, B4 */
-    .card-surface {
-        background-color: #1F1F1F;
-        border: 1px solid #2D2D2D;
+    .card-surface {{
+        background-color: {bg_card};
+        border: 1px solid {border_card};
         border-radius: 16px;
         padding: 24px;
         margin-bottom: 24px;
+        color: {text_primary};
         transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), border-color 300ms ease;
-    }
+    }}
     
-    .card-surface:hover {
-        border-color: #404040;
-    }
+    .card-surface:hover {{
+        border-color: #00D26A;
+    }}
+
+    .card-title {{
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: {text_primary};
+    }}
 
     /* Threat Status Cards (Component States per B9) */
-    .threat-card {
+    .threat-card {{
         border-radius: 16px;
         padding: 24px;
         margin-top: 16px;
         margin-bottom: 24px;
-        border: 1px solid #333333;
-    }
+        border: 1px solid;
+    }}
     
-    .threat-normal {
-        background-color: #162419;
-        border-color: #1B4D28;
-    }
+    .threat-normal {{
+        background-color: {c_norm_bg};
+        border-color: {c_norm_border};
+    }}
     
-    .threat-ddos {
-        background-color: #281417;
-        border-color: #5C1D24;
-    }
+    .threat-ddos {{
+        background-color: {c_ddos_bg};
+        border-color: {c_ddos_border};
+    }}
     
-    .threat-portscan {
-        background-color: #291E14;
-        border-color: #5E3917;
-    }
+    .threat-portscan {{
+        background-color: {c_scan_bg};
+        border-color: {c_scan_border};
+    }}
     
-    .threat-bruteforce {
-        background-color: #231629;
-        border-color: #4C215E;
-    }
+    .threat-bruteforce {{
+        background-color: {c_brute_bg};
+        border-color: {c_brute_border};
+    }}
 
-    .threat-title {
+    .threat-title {{
         font-size: 20px;
         font-weight: 600;
         margin-bottom: 8px;
-    }
+    }}
     
-    .threat-desc {
+    .threat-desc {{
         font-size: 14px;
         line-height: 1.5;
-        color: #D1D5DB;
+        color: {threat_desc_color};
         margin-bottom: 16px;
-    }
+    }}
 
-    .action-tag {
+    .action-tag {{
         display: inline-block;
         padding: 6px 12px;
         border-radius: 8px;
         font-size: 13px;
         font-weight: 600;
-        background-color: rgba(255, 255, 255, 0.08);
-    }
+        background-color: {action_tag_bg};
+        color: {action_tag_text};
+    }}
 
     /* Metric Grid Box */
-    .metric-box {
-        background-color: #181818;
-        border: 1px solid #2B2B2B;
+    .metric-box {{
+        background-color: {metric_bg};
+        border: 1px solid {metric_border};
         border-radius: 10px;
         padding: 12px 16px;
         text-align: center;
-    }
+    }}
     
-    .metric-label {
+    .metric-label {{
         font-size: 12px;
-        color: #888888;
+        color: {text_secondary};
         margin-bottom: 4px;
-    }
+    }}
     
-    .metric-value {
+    .metric-value {{
         font-size: 18px;
         font-weight: 600;
-        color: #F5F5F5;
-    }
+        color: {text_primary};
+    }}
+    
+    /* Step Cards in How it Works */
+    .step-box {{
+        background-color: {step_bg};
+        border: 1px solid {step_border};
+        padding: 16px;
+        border-radius: 12px;
+        height: 100%;
+    }}
+    
+    .step-title {{
+        font-weight: 600;
+        color: {text_primary};
+        margin-bottom: 6px;
+    }}
+    
+    .step-desc {{
+        font-size: 13px;
+        color: {text_secondary};
+        line-height: 1.5;
+    }}
 </style>
 """, unsafe_allow_html=True)
 
 # ----------------------------------------------------
-# 3. โหลดโมเดล Machine Learning
+# 5. โหลดโมเดล Machine Learning
 # ----------------------------------------------------
 @st.cache_resource
 def load_model():
@@ -191,7 +301,7 @@ if model is None:
     st.stop()
 
 # ----------------------------------------------------
-# 4. SECTION 1: HERO SECTION (ตามข้อกำหนด B5)
+# 6. SECTION 1: HERO SECTION
 # ----------------------------------------------------
 st.markdown("""
 <div class="hero-container">
@@ -203,11 +313,16 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# ลิงก์ไปหน้า "ทำไมต้องสร้างระบบป้องกัน" (หน้าแยก ไม่กระทบส่วนอื่น)
+_l, _mid, _r = st.columns([1, 2, 1])
+with _mid:
+    st.page_link("pages/1_why_defense.py", label="ทำไมผมถึงสร้างโปรเจกต์นี้ : มุมมองฝ่ายป้องกันในยุคแฮกเกอร์ใช้ AI", icon="🛡️")
+
 # ----------------------------------------------------
-# 5. SECTION 2: INTERACTIVE TESTING PLAYGROUND
+# 7. SECTION 2: INTERACTIVE TESTING PLAYGROUND
 # ----------------------------------------------------
 st.markdown('<div class="card-surface">', unsafe_allow_html=True)
-st.markdown("<h3 style='font-size: 18px; font-weight: 600; margin-bottom: 16px;'>1. ทดลองป้อนข้อมูลหรือเลือกตัวอย่างการโจมตี (Interactive Test)</h3>", unsafe_allow_html=True)
+st.markdown("<div class='card-title'>1. ทดลองป้อนข้อมูลหรือเลือกตัวอย่างการโจมตี (Interactive Test)</div>", unsafe_allow_html=True)
 
 # ตัวเลือกรูปแบบการป้อนข้อมูล
 input_mode = st.radio(
@@ -282,7 +397,7 @@ predict_clicked = st.button("ตรวจสอบภัยคุกคามด
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ----------------------------------------------------
-# 6. SECTION 3: THREAT CARD COMPONENT (เมื่อกดปุ่มทำนาย)
+# 8. SECTION 3: THREAT CARD COMPONENT
 # ----------------------------------------------------
 if predict_clicked:
     input_data = pd.DataFrame([{
@@ -298,7 +413,6 @@ if predict_clicked:
     classes = model.classes_
     max_prob = max(probs) * 100
 
-    # คัดเลือก Card State ตามประเภทผลลัพธ์
     if pred == "Normal":
         card_class = "threat-normal"
         status_color = "#00D26A"
@@ -324,26 +438,24 @@ if predict_clicked:
         desc_text = "พบการพยายามล็อกอินล้มเหลวติดต่อกันหลายครั้งบนพอร์ต 22 เพื่อสุ่มเดารหัสผ่านผู้ดูแลระบบ"
         recommend_text = "มาตรการแก้ไข: สั่งล็อกบัญชีผู้ใช้ชั่วคราว และบังคับใช้งานระบบยืนยันตัวตนสองชั้น (MFA)"
 
-    # เรนเดอร์การ์ดแสดงผลภัยคุกคามตาม Design System
     st.markdown(f"""
     <div class="threat-card {card_class}">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
             <span style="font-size: 13px; font-weight: 700; color: {status_color}; text-transform: uppercase;">
                 AI Verdict Result
             </span>
-            <span style="font-size: 13px; font-weight: 600; color: #FFFFFF; background-color: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 6px;">
+            <span style="font-size: 13px; font-weight: 600; color: {status_color}; background-color: rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 6px;">
                 ความเชื่อมั่น: {max_prob:.1f}%
             </span>
         </div>
         <div class="threat-title" style="color: {status_color};">{title_text}</div>
         <div class="threat-desc">{desc_text}</div>
-        <div class="action-tag" style="border: 1px solid {status_color}; color: #FFFFFF;">
+        <div class="action-tag" style="border: 1px solid {status_color};">
             💡 {recommend_text}
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    # Metric Row: สรุปตัวเลขสำคัญ 4 ค่า
     m1, m2, m3, m4 = st.columns(4)
     with m1:
         st.markdown(f"""<div class="metric-box"><div class="metric-label">Duration</div><div class="metric-value">{duration:.2f}s</div></div>""", unsafe_allow_html=True)
@@ -354,7 +466,6 @@ if predict_clicked:
     with m4:
         st.markdown(f"""<div class="metric-box"><div class="metric-label">Target Port</div><div class="metric-value">{port}</div></div>""", unsafe_allow_html=True)
 
-    # ตารางแจกแจงความน่าจะเป็นทุกคลาส
     st.write("")
     with st.expander("🔍 ดูค่าความน่าจะเป็นแยกรายคลาส (Probability Distribution)"):
         prob_df = pd.DataFrame({
@@ -364,46 +475,46 @@ if predict_clicked:
         st.dataframe(prob_df, hide_index=True, use_container_width=True)
 
 # ----------------------------------------------------
-# 7. SECTION 4: HOW IT WORKS (3 STEPS)
+# 9. SECTION 4: HOW IT WORKS (3 STEPS)
 # ----------------------------------------------------
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown('<div class="card-surface">', unsafe_allow_html=True)
-st.markdown("<h3 style='font-size: 18px; font-weight: 600; margin-bottom: 20px;'>2. หลักการทำงานของระบบ (How It Works)</h3>", unsafe_allow_html=True)
+st.markdown("<div class='card-title'>2. หลักการทำงานของระบบ (How It Works)</div>", unsafe_allow_html=True)
 
 col_s1, col_s2, col_s3 = st.columns(3)
 with col_s1:
     st.markdown("""
-    <div style="background-color: #181818; padding: 16px; border-radius: 12px; border: 1px solid #2B2B2B;">
+    <div class="step-box">
         <div style="color: #00D26A; font-weight: 700; margin-bottom: 6px;">ขั้นตอนที่ 1</div>
-        <div style="font-weight: 600; color: #FFFFFF; margin-bottom: 6px;">รวบรวมทราฟฟิก (Ingest)</div>
-        <div style="font-size: 13px; color: #9E9E9E; line-height: 1.5;">ดึงข้อมูลการเชื่อมต่อเครือข่าย เช่น ระยะเวลา จำนวนแพ็กเก็ต และพอร์ตเป้าหมาย</div>
+        <div class="step-title">รวบรวมทราฟฟิก (Ingest)</div>
+        <div class="step-desc">ดึงข้อมูลการเชื่อมต่อเครือข่าย เช่น ระยะเวลา จำนวนแพ็กเก็ต และพอร์ตเป้าหมาย</div>
     </div>
     """, unsafe_allow_html=True)
 
 with col_s2:
     st.markdown("""
-    <div style="background-color: #181818; padding: 16px; border-radius: 12px; border: 1px solid #2B2B2B;">
+    <div class="step-box">
         <div style="color: #00D26A; font-weight: 700; margin-bottom: 6px;">ขั้นตอนที่ 2</div>
-        <div style="font-weight: 600; color: #FFFFFF; margin-bottom: 6px;">ทำนายด้วย AI (Classify)</div>
-        <div style="font-size: 13px; color: #9E9E9E; line-height: 1.5;">โมเดล Random Forest วิเคราะห์และเปรียบเทียบพฤติกรรมกับฐานข้อมูลที่ฝึกสอน</div>
+        <div class="step-title">ทำนายด้วย AI (Classify)</div>
+        <div class="step-desc">โมเดล Random Forest วิเคราะห์และเปรียบเทียบพฤติกรรมกับฐานข้อมูลที่ฝึกสอน</div>
     </div>
     """, unsafe_allow_html=True)
 
 with col_s3:
     st.markdown("""
-    <div style="background-color: #181818; padding: 16px; border-radius: 12px; border: 1px solid #2B2B2B;">
+    <div class="step-box">
         <div style="color: #00D26A; font-weight: 700; margin-bottom: 6px;">ขั้นตอนที่ 3</div>
-        <div style="font-weight: 600; color: #FFFFFF; margin-bottom: 6px;">แจ้งเตือนทันที (Respond)</div>
-        <div style="font-size: 13px; color: #9E9E9E; line-height: 1.5;">แสดงผลลัพธ์ผ่านแดชบอร์ด พร้อมคำแนะนำในการบล็อกหรือจำกัดความเสียหาย</div>
+        <div class="step-title">แจ้งเตือนทันที (Respond)</div>
+        <div class="step-desc">แสดงผลลัพธ์ผ่านแดชบอร์ด พร้อมคำแนะนำในการบล็อกหรือจำกัดความเสียหาย</div>
     </div>
     """, unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ----------------------------------------------------
-# 8. SECTION 5: MODEL PROOF & DATASET STATS
+# 10. SECTION 5: MODEL PROOF & DATASET STATS
 # ----------------------------------------------------
 st.markdown('<div class="card-surface">', unsafe_allow_html=True)
-st.markdown("<h3 style='font-size: 18px; font-weight: 600; margin-bottom: 16px;'>3. ข้อมูลสถิติของโมเดล (Model Performance & Data)</h3>", unsafe_allow_html=True)
+st.markdown("<div class='card-title'>3. ข้อมูลสถิติของโมเดล (Model Performance & Data)</div>", unsafe_allow_html=True)
 
 stat1, stat2, stat3 = st.columns(3)
 stat1.metric("Model Algorithm", "Random Forest (100 Trees)")
