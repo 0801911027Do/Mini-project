@@ -1,0 +1,4 @@
+wave_id,attack_type,start_epoch,end_epoch,duration_sec
+1,DDoS_SYN_Flood,1730912580.0,1730912608.0,28
+2,DDoS_HTTP_Flood,1730912940.0,1730912968.0,28
+3,DDoS_SYN_Flood,1730913320.0,1730913348.0,28

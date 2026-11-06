@@ -1,0 +1,103 @@
+{
+  "dataset_summary": {
+    "total_windows": 1200,
+    "normal_windows": 1116,
+    "attack_windows": 84,
+    "imbalance_ratio_normal_pct": 93.0,
+    "imbalance_ratio_attack_pct": 7.0,
+    "train_size": 900,
+    "test_size": 300
+  },
+  "models_comparison": [
+    {
+      "model_name": "1. Naive Baseline (ทายว่า Normal ทั้งหมด)",
+      "accuracy": 0.93,
+      "precision": 0.0,
+      "recall_detection_rate": 0.0,
+      "f1_score": 0.0,
+      "pr_auc": 0.07,
+      "roc_auc": 0.5,
+      "false_alarm_rate": 0.0,
+      "confusion_matrix": {
+        "tn": 279,
+        "fp": 0,
+        "fn": 21,
+        "tp": 0
+      }
+    },
+    {
+      "model_name": "2. Unbalanced Logistic Regression (ไม่แก้ Imbalance)",
+      "accuracy": 0.9933,
+      "precision": 1.0,
+      "recall_detection_rate": 0.9048,
+      "f1_score": 0.95,
+      "pr_auc": 1.0,
+      "roc_auc": 1.0,
+      "false_alarm_rate": 0.0,
+      "confusion_matrix": {
+        "tn": 279,
+        "fp": 0,
+        "fn": 2,
+        "tp": 19
+      }
+    },
+    {
+      "model_name": "3. Balanced Random Forest (class_weight='balanced')",
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall_detection_rate": 1.0,
+      "f1_score": 1.0,
+      "pr_auc": 1.0,
+      "roc_auc": 1.0,
+      "false_alarm_rate": 0.0,
+      "confusion_matrix": {
+        "tn": 279,
+        "fp": 0,
+        "fn": 0,
+        "tp": 21
+      }
+    }
+  ],
+  "feature_importances": [
+    {
+      "feature": "unique_src_ips",
+      "importance": 0.2285
+    },
+    {
+      "feature": "syn_count",
+      "importance": 0.2064
+    },
+    {
+      "feature": "mean_iat",
+      "importance": 0.1799
+    },
+    {
+      "feature": "packet_count",
+      "importance": 0.1533
+    },
+    {
+      "feature": "syn_ratio",
+      "importance": 0.1391
+    },
+    {
+      "feature": "mean_packet_len",
+      "importance": 0.0399
+    },
+    {
+      "feature": "ack_count",
+      "importance": 0.0266
+    },
+    {
+      "feature": "std_packet_len",
+      "importance": 0.0156
+    },
+    {
+      "feature": "total_bytes",
+      "importance": 0.0091
+    },
+    {
+      "feature": "ack_ratio",
+      "importance": 0.0017
+    }
+  ]
+}

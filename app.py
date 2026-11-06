@@ -324,10 +324,12 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # แถบทางลัดไปยังหน้าย่อย (Navigation Links)
-_link1, _link2 = st.columns(2)
+_link1, _link2, _link3 = st.columns(3)
 with _link1:
-    st.page_link("pages/2_red_vs_blue.py", label="⚔️ สนามจำลอง: ฝ่ายโจมตี vs ฝ่ายป้องกัน (Red vs Blue Team)", icon="⚔️")
+    st.page_link("pages/3_wireshark_lan_lab.py", label="🦈 แล็บ Notebook 3 เครื่อง & Wireshark (Imbalanced ML)", icon="🦈")
 with _link2:
+    st.page_link("pages/2_red_vs_blue.py", label="⚔️ สนามจำลอง: ฝ่ายโจมตี vs ฝ่ายป้องกัน (Red vs Blue Team)", icon="⚔️")
+with _link3:
     st.page_link("pages/1_why_defense.py", label="🛡️ เหตุผลที่สร้างโปรเจกต์นี้ (มุมมองฝ่ายป้องกันในยุค AI)", icon="🛡️")
 
 # ----------------------------------------------------
