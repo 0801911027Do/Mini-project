@@ -134,16 +134,8 @@ st.markdown(f"""
 # ----------------------------------------------------
 # 3. Header & Navigation Back
 # ----------------------------------------------------
-col_nav1, col_nav2 = st.columns([8, 2])
-with col_nav1:
-    if st.button("⬅️ กลับไปยังหน้าตรวจจับหลัก (Main Dashboard)", key="back_to_main"):
-        st.switch_page("app.py")
-
-with col_nav2:
-    mode_btn = st.button("☀️ โหมดสว่าง" if is_dark else "🌙 โหมดมืด", key="toggle_theme_rnb")
-    if mode_btn:
-        st.session_state.is_dark = not is_dark
-        st.rerun()
+if st.button("⬅️ กลับไปยังหน้าตรวจจับหลัก (Main Dashboard)", key="back_to_main"):
+    st.switch_page("app.py")
 
 st.markdown("""
 <div class="hero-container">
@@ -431,3 +423,4 @@ automated_defense_action("DDoS", "185.220.101.5")
 """, language="python")
 
 st.markdown("<br><div style='text-align: center; color: grey; font-size: 13px;'>Cyber Threat Detection & Mitigation Mini-Project • Red Team vs Blue Team Arena</div>", unsafe_allow_html=True)
+

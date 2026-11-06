@@ -26,19 +26,10 @@ st.set_page_config(
 )
 
 # ----------------------------------------------------
-# 2. ตัวสลับธีม: โหมดมืด (Dark) / โหมดสว่าง (Light)
+# 2. การตั้งค่าธีม (Dark Mode เป็นค่ามาตรฐาน)
 # ----------------------------------------------------
-if "is_dark" not in st.session_state:
-    st.session_state.is_dark = True
-
-# แถบควบคุมด้านบนขวาสำหรับสลับโหมด
-top_space, top_toggle = st.columns([6, 1.2])
-with top_toggle:
-    theme_text = "🌙 โหมดมืด (Dark)" if st.session_state.is_dark else "☀️ โหมดสว่าง (Light)"
-    selected_dark = st.toggle(theme_text, value=st.session_state.is_dark)
-    if selected_dark != st.session_state.is_dark:
-        st.session_state.is_dark = selected_dark
-        st.rerun()
+is_dark = True
+st.session_state.is_dark = True
 
 # ----------------------------------------------------
 # 3. กำหนดค่าสีตาม Design Tokens (Dark vs Light)
