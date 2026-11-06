@@ -45,7 +45,11 @@
       padding: 0;
     }
 
-    html, body {
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
       background-color: var(--canvas);
       color: var(--text-primary);
       font-family: var(--font-body);
@@ -410,6 +414,31 @@
       margin: 0 auto;
       position: relative;
       z-index: 10;
+      scroll-margin-top: 80px;
+    }
+
+    .tab-btn {
+      padding: 10px 22px;
+      border-radius: 9999px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--panel-border);
+      background: var(--panel);
+      color: var(--text-secondary);
+      transition: all 0.2s ease;
+      font-family: var(--font-body);
+    }
+
+    .tab-btn:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+    }
+
+    .tab-btn.active {
+      background: var(--accent-muted);
+      border-color: var(--accent);
+      color: var(--accent-hover);
     }
 
     .section-header {
@@ -838,12 +867,22 @@
   <!-- Interactive Simulation Section -->
   <section class="section-wrap" id="simulator">
     <div class="section-header">
-      <span class="section-tag">LIVE INTERACTIVE LAB</span>
+      <span class="section-tag">LIVE INTERACTIVE LAB & STREAMLIT</span>
       <h2 class="section-title">สนามทดลองสด: ฝ่ายโจมตี vs ฝ่ายป้องกัน</h2>
-      <p class="section-sub">ทดสอบการโจมตี 3 รูปแบบ และสลับเปิด-ปิดระบบป้องกัน เพื่อดูการตอบสนองของเซิร์ฟเวอร์แบบเรียลไทม์</p>
+      <p class="section-sub">ทดสอบการโจมตี 3 รูปแบบ และสลับเปิด-ปิดระบบป้องกัน หรือเปิดแดชบอร์ด AI ของจริง</p>
     </div>
 
-    <div class="simulator-card">
+    <!-- Mode Selector Tabs -->
+    <div style="display: flex; gap: 12px; justify-content: center; margin-bottom: 28px; flex-wrap: wrap;">
+      <button class="tab-btn active" id="tab-btn-sim" onclick="switchLabTab('sim')">
+        ⚡ 1. สนามจำลองการโจมตี (Interactive Web Lab)
+      </button>
+      <button class="tab-btn" id="tab-btn-streamlit" onclick="switchLabTab('streamlit')">
+        🛡️ 2. แดชบอร์ด AI สด (Streamlit Dashboard Engine)
+      </button>
+    </div>
+
+    <div class="simulator-card" id="sim-card">
       <!-- Left: Attacker Controls -->
       <div class="sim-panel">
         <h4>🔴 ฝ่ายโจมตี (Red Team Simulation)</h4>
@@ -907,6 +946,23 @@
             <div class="telemetry-lbl">BLOCKED</div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Embedded Live Streamlit Dashboard -->
+    <div id="streamlit-panel" style="display: none; margin-top: 20px;">
+      <div style="background: var(--panel); border: 1px solid var(--panel-border); border-radius: 16px; overflow: hidden; padding: 18px; box-shadow: 0 16px 40px rgba(0,0,0,0.5);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--panel-border); flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="display: inline-block; width: 10px; height: 10px; background: #00D26A; border-radius: 50%; box-shadow: 0 0 10px #00D26A;"></span>
+            <span style="font-weight: 600; font-size: 14px; font-family: var(--font-mono); color: var(--accent);">GO-HARD STREAMLIT CORE: PORT 8501 ONLINE</span>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button onclick="document.getElementById('st-frame').src += ''" class="btn btn-outline" style="padding: 6px 12px; font-size: 12px;">🔄 รีเฟรชแอป</button>
+            <a href="http://localhost:8501" target="_blank" class="btn btn-primary" style="padding: 6px 14px; font-size: 12px;">เปิดเต็มจอในแท็บใหม่ ↗</a>
+          </div>
+        </div>
+        <iframe id="st-frame" src="http://localhost:8501/?embed=true" style="width: 100%; height: 800px; border: 1px solid var(--panel-border); border-radius: 8px; background: #121212;" title="GoHard Cyber Defense Streamlit App"></iframe>
       </div>
     </div>
   </section>
@@ -1243,6 +1299,44 @@
     function toggleFaq(item) {
       item.parentElement.classList.toggle('open');
     }
+
+    /* ---------------------------------------------------- */
+    /* 4. Tab Switcher & Smooth Navigation                  */
+    /* ---------------------------------------------------- */
+    function switchLabTab(tab) {
+      const simCard = document.getElementById('sim-card');
+      const stPanel = document.getElementById('streamlit-panel');
+      const btnSim = document.getElementById('tab-btn-sim');
+      const btnSt = document.getElementById('tab-btn-streamlit');
+
+      if (tab === 'streamlit') {
+        if (simCard) simCard.style.display = 'none';
+        if (stPanel) stPanel.style.display = 'block';
+        if (btnSim) btnSim.classList.remove('active');
+        if (btnSt) btnSt.classList.add('active');
+      } else {
+        if (simCard) simCard.style.display = 'grid';
+        if (stPanel) stPanel.style.display = 'none';
+        if (btnSim) btnSim.classList.add('active');
+        if (btnSt) btnSt.classList.remove('active');
+      }
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (!href || href === '#') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+          if (href === '#simulator') {
+            switchLabTab('sim');
+          }
+        }
+      });
+    });
   </script>
 </body>
 </html>
