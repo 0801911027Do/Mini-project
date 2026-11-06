@@ -184,3 +184,4 @@ for f in range(TOTAL_FRAMES):
 proc.stdin.close()
 proc.wait()
 print("Raw render complete:", RAW_OUTPUT)
+

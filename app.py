@@ -19,7 +19,7 @@ import os
 # 1. ตั้งค่าหน้าเว็บ
 # ----------------------------------------------------
 st.set_page_config(
-    page_title="AI Network Threat Detector | Mini-Project",
+    page_title="GoHard Cyber Defense | บริษัท GoHard",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="collapsed"
@@ -315,10 +315,10 @@ if model is None:
 # ----------------------------------------------------
 st.markdown("""
 <div class="hero-container">
-    <div class="hero-badge">AI Model Online — Random Forest Classifier</div>
-    <div class="hero-title">ตรวจจับภัยคุกคามไซเบอร์<br>และจำแนกการโจมตีเครือข่ายด้วย Machine Learning</div>
+    <div class="hero-badge">บริษัท GoHard — AI Incident Response Engine</div>
+    <div class="hero-title">GoHard Cyber Defense<br>ระบบตรวจจับภัยคุกคามไซเบอร์และสนับสนุนการตัดสินใจด้วย AI</div>
     <div class="hero-subtitle">
-        มินิโปรเจกต์วิเคราะห์พฤติกรรมทราฟฟิก ตรวจจับการโจมตีแบบ DDoS, Port Scan และ Brute Force แบบเรียลไทม์ พร้อมความแม่นยำสูง
+        โซลูชันวิเคราะห์พฤติกรรมทราฟฟิกเครือข่าย ตรวจจับ DDoS, Port Scan, Brute Force และตอบสนองต่อเหตุการณ์อัตโนมัติ โดย บริษัท GoHard
     </div>
 </div>
 """, unsafe_allow_html=True)
